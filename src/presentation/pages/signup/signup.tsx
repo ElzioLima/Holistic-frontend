@@ -1,6 +1,6 @@
 import Styles from './signup-styles.scss'
-import { signUpState, Input, SubmitButton, FormStatus } from './components'
-import { Footer, LoginHeader, currentAccountState } from '@/presentation/components'
+import { signUpState, Input, Output, SubmitButton, FormStatus } from './components'
+import { currentAccountState } from '@/presentation/components'
 import { Validation } from '@/presentation/protocols'
 import { AddAccount, GetAddress } from '@/domain/usecases'
 
@@ -25,16 +25,21 @@ const SignUp: React.FC<Props> = ({ validation, addAccount, getAddress }: Props) 
   useEffect(() => validate('email'), [state.email])
   useEffect(() => validate('password'), [state.password])
   useEffect(() => validate('passwordConfirmation'), [state.passwordConfirmation])
+  useEffect(() => validate('cep'), [state.cep])
   useEffect(() => {
-    validate('cep')
+    console.log(JSON.stringify({cepError: state.cepError}))
     if (!state.cepError) {
       const fetchData = async () => {
         const data = await updateState({cep: state.cep})
       }
       fetchData()
         .catch(console.error)
+    } else {
+      if (state.addressState) {
+        setState(old => ({...old, street: '', complement: '', neighborhood: '', locality: '', uf: '', addressState: false}))
+      }
     }
-  }, [state.cep])
+  }, [state.cepError])
 
   const validate = (field: string): void => {
     const { name, email, password, passwordConfirmation, cep } = state
@@ -45,14 +50,12 @@ const SignUp: React.FC<Props> = ({ validation, addAccount, getAddress }: Props) 
 
   const updateState = async (value: any): Promise<void> => {
     const data = await getAddress.get({ cep: value.cep })
-    console.log(JSON.stringify(data))
     setState(old => ({
       ...old,
       ...value,
-      ...data
+      ...data,
+      addressState: true
     }))
-
-    console.log(state)
     return
   }
 
@@ -88,11 +91,11 @@ const SignUp: React.FC<Props> = ({ validation, addAccount, getAddress }: Props) 
         <Input type="password" name="password" placeholder="Digite sua senha" />
         <Input type="password" name="passwordConfirmation" placeholder="Repita sua senha" />
         <Input type="text" name="cep" placeholder="Digite seu CEP" />
-        <Input type="text" name="street" placeholder="logradouro" value={state.street}/>
-        <Input type="text" name="complement" placeholder="complemento" value={state.complement}/>
-        <Input type="text" name="neighborhood" placeholder="bairro" value={state.neighborhood}/>
-        <Input type="text" name="locality" placeholder="localidade" value={state.locality}/>
-        <Input type="text" name="uf" placeholder="UF" value={state.uf}/>
+        <Output name="logradouro" value={state.street} />
+        <Output name="complemento" value={state.complement} />
+        <Output name="bairro" value={state.neighborhood} />
+        <Output name="localidade" value={state.locality} />
+        <Output name="UF" value={state.uf} />
 
         <SubmitButton text="Cadastrar" />
         <Link data-testid="login-link" replace to="/login" className={Styles.link}>Voltar Para Login</Link>

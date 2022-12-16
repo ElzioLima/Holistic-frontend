@@ -1,5 +1,5 @@
 import { FieldValidation } from '@/validation/protocols'
-import { RequiredFieldValidation, EmailValidation, MinLengthValidation, CompareFieldsValidation } from '@/validation/validators'
+import { RequiredFieldValidation, EmailValidation, MinLengthValidation, CompareFieldsValidation, CEPValidation } from '@/validation/validators'
 
 export class ValidationBuilder {
   private constructor (
@@ -18,6 +18,11 @@ export class ValidationBuilder {
 
   email (): ValidationBuilder {
     this.validations.push(new EmailValidation(this.fieldName))
+    return this
+  }
+
+  cep (): ValidationBuilder {
+    this.validations.push(new CEPValidation(this.fieldName))
     return this
   }
 

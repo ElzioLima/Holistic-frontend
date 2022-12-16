@@ -1,6 +1,7 @@
 export { default as Footer } from './footer/footer'
 export { default as FormStatusBase } from './form-status/form-status'
 export { default as InputBase } from './input/input'
+export { default as OutputBase } from './output/output'
 export { default as LoginHeader } from './login-header/login-header'
 export { default as Header } from './header/header'
 export { default as Icon, IconName } from './icon/icon'

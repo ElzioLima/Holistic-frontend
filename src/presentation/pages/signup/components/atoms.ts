@@ -15,6 +15,7 @@ export const signUpState = atom({
     neighborhood: '',
     locality: '',
     uf: '',
+    addressState: false,
     nameError: '',
     emailError: '',
     passwordError: '',
