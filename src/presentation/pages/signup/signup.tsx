@@ -27,8 +27,8 @@ const SignUp: React.FC<Props> = ({ validation, addAccount, getAddress }: Props) 
   useEffect(() => validate('passwordConfirmation'), [state.passwordConfirmation])
   useEffect(() => validate('cep'), [state.cep])
   useEffect(() => {
-    console.log(JSON.stringify({cepError: state.cepError}))
-    if (!state.cepError) {
+    console.log(JSON.stringify({state: state}))
+    if (state.cep.length === 8) {
       const fetchData = async () => {
         const data = await updateState({cep: state.cep})
       }
@@ -39,7 +39,7 @@ const SignUp: React.FC<Props> = ({ validation, addAccount, getAddress }: Props) 
         setState(old => ({...old, street: '', complement: '', neighborhood: '', locality: '', uf: '', addressState: false}))
       }
     }
-  }, [state.cepError])
+  }, [state.cep])
 
   const validate = (field: string): void => {
     const { name, email, password, passwordConfirmation, cep } = state
@@ -91,11 +91,11 @@ const SignUp: React.FC<Props> = ({ validation, addAccount, getAddress }: Props) 
         <Input type="password" name="password" placeholder="Digite sua senha" />
         <Input type="password" name="passwordConfirmation" placeholder="Repita sua senha" />
         <Input type="text" name="cep" placeholder="Digite seu CEP" />
-        <Output name="logradouro" value={state.street} />
-        <Output name="complemento" value={state.complement} />
-        <Output name="bairro" value={state.neighborhood} />
-        <Output name="localidade" value={state.locality} />
-        <Output name="UF" value={state.uf} />
+        <Output type="text" name="logradouro" value={state.street} />
+        <Output type="text" name="complemento" value={state.complement} />
+        <Output type="text" name="bairro" value={state.neighborhood} />
+        <Output type="text" name="localidade" value={state.locality} />
+        <Output type="text" name="UF" value={state.uf} />
 
         <SubmitButton text="Cadastrar" />
         <Link data-testid="login-link" replace to="/login" className={Styles.link}>Voltar Para Login</Link>

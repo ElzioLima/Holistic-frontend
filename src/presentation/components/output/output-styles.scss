@@ -1,8 +1,9 @@
 @import "../../styles/colors.scss";
 
 .outputWrap {
-  margin-top: 10px;
+  margin-top: 40px;
   position: relative;
+  border-bottom: 2px solid $disabledColor;
 
   &[data-status="valid"] {
     border-bottom-color: $valid;
@@ -56,6 +57,7 @@
   }
 
   label {
+    position: absolute;
     left: 8px;
     color: $disabledColor;
     cursor: text;

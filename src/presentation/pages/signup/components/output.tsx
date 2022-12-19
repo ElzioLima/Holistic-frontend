@@ -5,6 +5,7 @@ import React from 'react'
 type Props = {
   name: string
   value?: string
+  type?: string
 }
 
 const Input: React.FC<Props> = ({ name, value }: Props) => {
